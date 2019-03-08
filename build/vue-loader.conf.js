@@ -1,4 +1,5 @@
 'use strict'
+//作用： 对所有.vue文件使用进行编译的选项配置
 const utils = require('./utils')
 const config = require('../config')
 const isProduction = process.env.NODE_ENV === 'production'

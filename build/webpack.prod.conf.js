@@ -4,13 +4,13 @@ const path = require('path')
 const utils = require('./utils')
 const webpack = require('webpack')
 const config = require('../config')
-const merge = require('webpack-merge')
+const merge = require('webpack-merge') //文件配置合并的插件
 const baseWebpackConfig = require('./webpack.base.conf')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin') //打包之后文件的复制
+const HtmlWebpackPlugin = require('html-webpack-plugin') //打包html的插件
+const ExtractTextPlugin = require('extract-text-webpack-plugin') //它会将所有的打包的零散 *.css， 移动到独立分离的CSS。减少http请求
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin') //优化css的插件
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin') // 压缩js的插件
 
 const env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
@@ -30,6 +30,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     filename: utils.assetsPath('js/[name].[chunkhash].js'),
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
+  // 插件
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
@@ -69,21 +70,23 @@ const webpackConfig = merge(baseWebpackConfig, {
         : config.build.index,
       template: 'index.html',
       inject: true,
+      // 优化
       minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true
+        removeComments: true, //删除html的注释
+        collapseWhitespace: true, //删除html的空格
+        removeAttributeQuotes: true //删除html属性值的引号 减小文件的体积
         // more options:
         // https://github.com/kangax/html-minifier#options-quick-reference
       },
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency'
+      chunksSortMode: 'dependency' //设置模块排序。让他按照我们设置的顺序插入
     }),
     // keep module.id stable when vendor modules does not change
     new webpack.HashedModuleIdsPlugin(),
     // enable scope hoisting
     new webpack.optimize.ModuleConcatenationPlugin(),
     // split vendor js into its own file
+    // 公共模块的配置
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks (module) {
@@ -114,6 +117,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     }),
 
     // copy custom static assets
+    // 打包之后的文件复制到目标文件夹
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, '../static'),

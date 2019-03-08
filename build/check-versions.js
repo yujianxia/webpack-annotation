@@ -1,6 +1,8 @@
 'use strict'
+// 这个文件主要作用就是版本检查
+
 const chalk = require('chalk')
-const semver = require('semver')
+const semver = require('semver') //它是 语义化版本（Semantic Versioning）规范 的一个实现
 const packageConfig = require('../package.json')
 const shell = require('shelljs')
 

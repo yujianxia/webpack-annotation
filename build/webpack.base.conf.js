@@ -74,6 +74,7 @@ module.exports = {
       {// 对所有.vue文件使用vue-loader进行编译
         test: /\.vue$/,
         loader: 'vue-loader',
+        // 配置 
         options: vueLoaderConfig
       },
       {// 对src和test文件夹下的.js文件使用babel-loader将es6+的代码转成es5
@@ -113,6 +114,7 @@ module.exports = {
       }
     ]
   },
+  // node主要是阻止一些webpack的默认注入行为，因为在vue中，已经具备了这些功能
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue
     // source contains it (although only uses it if it's native).
